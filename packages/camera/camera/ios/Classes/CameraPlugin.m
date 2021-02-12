@@ -504,6 +504,11 @@ NSString *const errorMethod = @"error";
     case max:
     case ultraHigh:
       if (@available(iOS 9.0, *)) {
+        if ([_captureSession canSetSessionPreset:AVCaptureSessionPresetPhoto]) {
+          _captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
+          _previewSize = CGSizeMake(4032, 3024);
+          break;
+        }
         if ([_captureSession canSetSessionPreset:AVCaptureSessionPreset3840x2160]) {
           _captureSession.sessionPreset = AVCaptureSessionPreset3840x2160;
           _previewSize = CGSizeMake(3840, 2160);
@@ -1281,7 +1286,7 @@ NSString *const errorMethod = @"error";
   if ([@"availableCameras" isEqualToString:call.method]) {
     if (@available(iOS 10.0, *)) {
       AVCaptureDeviceDiscoverySession *discoverySession = [AVCaptureDeviceDiscoverySession
-          discoverySessionWithDeviceTypes:@[ AVCaptureDeviceTypeBuiltInWideAngleCamera ]
+          discoverySessionWithDeviceTypes:@[ AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeBuiltInUltraWideCamera ]
                                 mediaType:AVMediaTypeVideo
                                  position:AVCaptureDevicePositionUnspecified];
       NSArray<AVCaptureDevice *> *devices = discoverySession.devices;
