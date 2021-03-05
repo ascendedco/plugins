@@ -502,7 +502,6 @@ NSString *const errorMethod = @"error";
 - (void)setCaptureSessionPreset:(ResolutionPreset)resolutionPreset {
   switch (resolutionPreset) {
     case max:
-    case ultraHigh:
       if (@available(iOS 9.0, *)) {
         if ([_captureSession canSetSessionPreset:AVCaptureSessionPresetPhoto]) {
           _captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
@@ -521,6 +520,31 @@ NSString *const errorMethod = @"error";
             CGSizeMake(_captureDevice.activeFormat.highResolutionStillImageDimensions.width,
                        _captureDevice.activeFormat.highResolutionStillImageDimensions.height);
         break;
+      }
+      case ultraHigh: {
+          AVCaptureDeviceFormat* chosenFormat = _captureDevice.formats[0];
+
+          for (AVCaptureDeviceFormat* format in _captureDevice.formats) {
+              CMVideoDimensions currentDimensions = CMVideoFormatDescriptionGetDimensions(chosenFormat.formatDescription);
+              CMVideoDimensions dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription);
+              float validRatio = 4 / (float) 3;
+              float resolutionRatio = dimensions.width / (float) dimensions.height;
+              if (resolutionRatio == validRatio) {
+                  // NSLog(@"Valid resolution: %d x %d : %f == %f", dimensions.width, dimensions.height, resolutionRatio, validRatio);
+                  if (dimensions.width > currentDimensions.width && dimensions.width < 4032) {
+                      // NSLog(@"Setting current resolution to: %d x %d : %f == %f", dimensions.width, dimensions.height, resolutionRatio, validRatio);
+                      chosenFormat = format;
+                  }
+              }
+          }
+
+            if ( [_captureDevice lockForConfiguration: NULL] ) {
+                [_captureDevice setActiveFormat: chosenFormat];
+                [_captureDevice unlockForConfiguration];
+            }
+
+          _previewSize = CGSizeMake(3264, 2448);
+          break;
       }
     case veryHigh:
       if ([_captureSession canSetSessionPreset:AVCaptureSessionPreset1920x1080]) {
