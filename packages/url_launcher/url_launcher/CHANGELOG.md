@@ -1,27 +1,47 @@
-## 6.0.0-nullsafety.5
+## NEXT
 
-* Document that the web plugin is not endorsed in the `nullsafety` prerelease for now.
+* Fix test button check for iOS 15.
 
-## 6.0.0-nullsafety.4
+## 6.0.7
 
-* Update the example app: remove the deprecated `RaisedButton` and `FlatButton` widgets.
+* Update the README to describe a workaround to the `Uri` query
+  encoding bug.
 
-## 6.0.0-nullsafety.3
+## 6.0.6
 
-* forceSafariVC should be nullable.
+* Require `url_launcher_platform_interface` 2.0.3. This fixes an issue
+  where 6.0.5 could fail to compile in some projects due to internal
+  changes in that version that were not compatible with earlier versions
+  of `url_launcher_platform_interface`.
 
-## 6.0.0-nullsafety.2
+## 6.0.5
 
-* Fix outdated links across a number of markdown files ([#3276](https://github.com/flutter/plugins/pull/3276))
+* Add iOS unit and UI integration test targets.
+* Add a `Link` widget to the example app.
 
-## 6.0.0-nullsafety.1
+## 6.0.4
 
-* Bump Dart SDK to support null safety.
+* Migrate maven repository from jcenter to mavenCentral.
 
-## 6.0.0-nullsafety
+## 6.0.3
+
+* Update README notes about URL schemes on iOS
+
+## 6.0.2
+
+* Update platform_plugin_interface version requirement.
+
+## 6.0.1
+
+* Update result to `True` on iOS when the url was loaded successfully.
+* Added a README note about required applications.
+
+## 6.0.0
 
 * Migrate to null safety.
-* **Breaking change**: web plugins aren't endorsed in null-safe plugins yet.
+* Fix outdated links across a number of markdown files ([#3276](https://github.com/flutter/plugins/pull/3276))
+* Update the example app: remove the deprecated `RaisedButton` and `FlatButton` widgets.
+* Correct statement in description about which platforms url_launcher supports.
 
 ## 5.7.13
 
